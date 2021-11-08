@@ -1,0 +1,38 @@
+---
+title: "demo"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{demo}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(Segmentation)
+library(data.table)
+data(neuroblastoma, package="neuroblastoma")
+```
+
+```{r Run on Neuroblastoma on DYNPROG}
+nb.dt <- data.table(neuroblastoma$profiles)
+data.dt <- nb.dt[profile.id=="1" & chromosome=="1"]
+max.segments <- 4
+my.seg <- Segmentation::apply_dynprogseg(data.dt$logratio, max.segments)
+
+my.seg
+```
+
+```{r Run a test vector on apply_binseg}
+data <- c(0.1, 0, 1, 1.1, 0.1, 0)
+k <- 3
+my.seg <- Segmentation::apply_binseg(data, k)
+my.seg
+```
+
